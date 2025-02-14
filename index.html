@@ -9,7 +9,7 @@
   <style>
     /* Global Styles */
     body {
-      /* Radial gradient background that covers the screen without repeating */
+      /* Fixed, non-repeating radial gradient background */
       background: radial-gradient(circle, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
       background-repeat: no-repeat;
       background-size: cover;
@@ -149,7 +149,7 @@
   </style>
 </head>
 <body>
-  <!-- Rose Petal Rain Container -->
+  <!-- Rose Petal Rain Container (Remains constant) -->
   <div id="petal-container"></div>
 
   <!-- Step 1: Welcome -->
@@ -338,11 +338,13 @@
     });
 
     /* ----- Interactive Hearts on Click ----- */
+    const heartEmojis = ["❤️", "💖", "💕", "💗", "💓", "💘", "💝", "💞"];
     document.addEventListener('click', function(e) {
       // Ignore clicks on buttons (or inside buttons)
       if (e.target.closest('button')) return;
       const heart = document.createElement('span');
-      heart.textContent = '❤️';
+      // Choose a random heart emoji from the list
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
       heart.style.position = 'absolute';
       heart.style.left = (e.pageX - 10) + 'px';
       heart.style.top = (e.pageY - 10) + 'px';
