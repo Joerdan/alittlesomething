@@ -30,17 +30,6 @@
       max-width: 600px;
       line-height: 1.6;
     }
-    input[type="text"] {
-      font-size: 1em;
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      margin-top: 20px;
-      border: 2px solid #ff4081;
-      border-radius: 25px;
-      text-align: center;
-      outline: none;
-    }
     .button, .delayed-button {
       background-color: #ff4081;
       color: white;
@@ -121,8 +110,9 @@
       from { transform: scale(0); }
       to { transform: scale(1); }
     }
-    /* Step 5: Bouquet Reveal - Hidden by default, displayed as flex when active */
+    /* Step 5: Bouquet Reveal - Centered using flex */
     #step5 {
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -144,21 +134,15 @@
   <!-- Rose Petal Rain Container -->
   <div id="petal-container"></div>
 
-  <!-- Step 0: Ask for Name -->
-  <div id="step0" class="container active">
-    <h1 class="animate-text">Hello There!</h1>
-    <p class="animate-text">Before we start, what's your name?</p>
-    <input type="text" id="userNameInput" placeholder="Enter your name" />
-    <br />
-    <button class="delayed-button" id="nameSubmit">Submit</button>
-  </div>
-
-  <!-- Step 1: Personalized Welcome -->
-  <div id="step1" class="container">
-    <h1 class="animate-text" id="welcomeHeader">Hey You</h1>
+  <!-- Step 1: Welcome -->
+  <div id="step1" class="container active">
+    <h1 class="animate-text">Hey You!</h1>
     <p class="animate-text">
-      Nothing fancy here, just a little something to put a smile on your face.
+      Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.
+
+      <i>Ps: click anywhere on the screen little hearts show up it's kinda cool ;)</i>
     </p>
+
     <button class="delayed-button" id="start">Let’s Go</button>
   </div>
 
@@ -175,7 +159,7 @@
   <div id="step3" class="container">
     <h1 class="animate-text">Oh, and...</h1>
     <p class="animate-text">
-      Smiles are contagious. If you just smiled, I win.
+      Smiles are contagious. If you just smiled, I win. If you didn't FUCK YOU this is cute!!!!
     </p>
     <button class="delayed-button" id="nextStep2">Next</button>
   </div>
@@ -184,7 +168,7 @@
   <div id="step4" class="container">
     <h1 class="animate-text">Game Time</h1>
     <p class="animate-text">
-      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward.
+      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue - Just sayin
     </p>
     <div id="scoreDisplay" style="font-size:1.2em; margin-bottom:10px;">Score: 0/5</div>
     <div id="gameContainer"></div>
@@ -192,9 +176,9 @@
 
   <!-- Step 5: Bouquet Reveal (Centered) -->
   <div id="step5" class="container">
-    <h1 class="animate-text">You made it!</h1>
+    <h1 class="animate-text">Yay!! Your fingers work and you can click on a few hearts</h1>
     <p class="animate-text">
-      Here's a bouquet of flowers just as beautiful as you <3
+      Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me and I wish you a happy valentines day.
     </p>
     <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487"
          alt="Bouquet" style="max-width: 90%; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);" />
@@ -202,8 +186,6 @@
   </div>
 
   <script>
-    let userName = "You"; // default name
-
     /* ----- Typewriter Text Animation (Word-by-Word) ----- */
     function animateText(element) {
       const text = element.textContent;
@@ -252,25 +234,10 @@
       }, maxDuration * 1000);
     }
 
-    // Animate Step 0 on load
-    animateContainer(document.getElementById('step0'));
+    // Animate Step 1 on load
+    animateContainer(document.getElementById('step1'));
 
     /* ----- Navigation Between Steps ----- */
-    document.getElementById('nameSubmit').addEventListener('click', function() {
-      const input = document.getElementById('userNameInput').value.trim();
-      if(input !== "") {
-        userName = input;
-      }
-      // Update welcome message with the user's name
-      document.getElementById('welcomeHeader').textContent = `Hey, ${userName}!`;
-      document.getElementById('userNameSpan').textContent = userName;
-      // Move to Step 1
-      document.getElementById('step0').classList.remove('active');
-      const step1 = document.getElementById('step1');
-      step1.classList.add('active');
-      animateContainer(step1);
-    });
-
     document.getElementById('start').addEventListener('click', function() {
       document.getElementById('step1').classList.remove('active');
       const step2 = document.getElementById('step2');
@@ -300,15 +267,16 @@
       document.getElementById('gameContainer').innerHTML = '';
       score = 0;
       document.getElementById('scoreDisplay').textContent = "Score: 0/5";
-      // Start over at Step 0 (ask for name)
-      const step0 = document.getElementById('step0');
-      step0.classList.add('active');
-      animateContainer(step0);
+      // Start over at Step 1
+      const step1 = document.getElementById('step1');
+      step1.classList.add('active');
+      animateContainer(step1);
     });
 
     /* ----- Interactive Hearts on Click ----- */
     document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('button') || e.target.classList.contains('delayed-button') || e.target.tagName === 'INPUT') return;
+      // Ignore clicks on buttons (or inside buttons)
+      if (e.target.closest('button')) return;
       const heart = document.createElement('span');
       heart.textContent = '❤️';
       heart.style.position = 'absolute';
