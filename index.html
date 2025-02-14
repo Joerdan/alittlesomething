@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Google Font for a playful, lively feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Just a Little Something</title>
+  <style>
+    /* Global Styles */
+    body {
+      background: radial-gradient(circle, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
+      font-family: 'Baloo 2', cursive, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      overflow-x: hidden;
+      position: relative;
+    }
+    h1 {
+      color: #ff4081;
+      font-size: 2.8em;
+      margin: 40px 0 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    p {
+      font-size: 1.3em;
+      margin: 20px auto;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    input[type="text"] {
+      font-size: 1em;
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-top: 20px;
+      border: 2px solid #ff4081;
+      border-radius: 25px;
+      text-align: center;
+      outline: none;
+    }
+    .button, .delayed-button {
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1em;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, opacity 0.5s ease, transform 0.3s ease;
+      margin-top: 20px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+    .button:hover, .delayed-button:hover {
+      background-color: #e0407e;
+      transform: scale(1.05);
+    }
+    .delayed-button {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .container {
+      display: none;
+      animation: fadeIn 0.8s ease-in;
+    }
+    .active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Typewriter / Fade In Up Animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Rose Petal Rain Styles */
+    #petal-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -50px;
+      opacity: 0.8;
+      animation: fallPetal linear infinite;
+    }
+    @keyframes fallPetal {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    /* Game Container (Step 4) */
+    #gameContainer {
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      height: 300px;
+      margin: 20px auto;
+      border: 2px dashed #ff4081;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .game-heart {
+      position: absolute;
+      font-size: 2em;
+      cursor: pointer;
+      user-select: none;
+      animation: pop 0.3s forwards;
+    }
+    @keyframes pop {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+    /* Step 5: Bouquet Reveal - Hidden by default, displayed as flex when active */
+    #step5 {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+    #step5.active {
+      display: flex;
+    }
+    /* Responsive Tweaks */
+    @media (max-width: 600px) {
+      h1 { font-size: 2.2em; }
+      p { font-size: 1em; padding: 0 10px; }
+      .button, .delayed-button { padding: 12px 20px; font-size: 0.9em; }
+      #gameContainer { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Rose Petal Rain Container -->
+  <div id="petal-container"></div>
+
+  <!-- Step 0: Ask for Name -->
+  <div id="step0" class="container active">
+    <h1 class="animate-text">Hello There!</h1>
+    <p class="animate-text">Before we start, what's your name?</p>
+    <input type="text" id="userNameInput" placeholder="Enter your name" />
+    <br />
+    <button class="delayed-button" id="nameSubmit">Submit</button>
+  </div>
+
+  <!-- Step 1: Personalized Welcome -->
+  <div id="step1" class="container">
+    <h1 class="animate-text" id="welcomeHeader">Hey You</h1>
+    <p class="animate-text">
+      Nothing fancy here, just a little something to put a smile on your face.
+    </p>
+    <button class="delayed-button" id="start">Let’s Go</button>
+  </div>
+
+  <!-- Step 2: Reminder -->
+  <div id="step2" class="container">
+    <h1 class="animate-text">Just a Reminder</h1>
+    <p class="animate-text">
+      You're appreciated. Not just today, but every day.
+    </p>
+    <button class="delayed-button" id="nextStep1">Next</button>
+  </div>
+
+  <!-- Step 3: A Little Nudge -->
+  <div id="step3" class="container">
+    <h1 class="animate-text">Oh, and...</h1>
+    <p class="animate-text">
+      Smiles are contagious. If you just smiled, I win.
+    </p>
+    <button class="delayed-button" id="nextStep2">Next</button>
+  </div>
+
+  <!-- Step 4: Heart Collector Game -->
+  <div id="step4" class="container">
+    <h1 class="animate-text">Game Time</h1>
+    <p class="animate-text">
+      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward.
+    </p>
+    <div id="scoreDisplay" style="font-size:1.2em; margin-bottom:10px;">Score: 0/5</div>
+    <div id="gameContainer"></div>
+  </div>
+
+  <!-- Step 5: Bouquet Reveal (Centered) -->
+  <div id="step5" class="container">
+    <h1 class="animate-text">Here, Take These</h1>
+    <p class="animate-text">
+      Flowers. Because why not, <span id="userNameSpan">you</span>?
+    </p>
+    <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487"
+         alt="Bouquet" style="max-width: 90%; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);" />
+    <button class="delayed-button" id="restart">Run It Back</button>
+  </div>
+
+  <script>
+    let userName = "You"; // default name
+
+    /* ----- Typewriter Text Animation (Word-by-Word) ----- */
+    function animateText(element) {
+      const text = element.textContent;
+      element.innerHTML = '';
+      let delayCounter = 0;
+      const words = text.split(' ');
+      words.forEach((word, wordIndex) => {
+        // Wrap each word in a span to prevent breaking mid-word
+        const wordSpan = document.createElement('span');
+        wordSpan.style.whiteSpace = 'nowrap';
+        for (let i = 0; i < word.length; i++) {
+          const letterSpan = document.createElement('span');
+          letterSpan.textContent = word[i];
+          letterSpan.style.opacity = 0;
+          letterSpan.style.display = 'inline-block';
+          letterSpan.style.animation = 'fadeInUp 0.5s forwards';
+          letterSpan.style.animationDelay = (delayCounter * 0.05) + 's';
+          delayCounter++;
+          wordSpan.appendChild(letterSpan);
+        }
+        element.appendChild(wordSpan);
+        // Add a space between words (if not the last word)
+        if (wordIndex < words.length - 1) {
+          element.appendChild(document.createTextNode(' '));
+          delayCounter++; // account for space delay
+        }
+      });
+      // Return total duration (in seconds) for text animation
+      return delayCounter * 0.05 + 0.5;
+    }
+
+    function animateContainer(container) {
+      const texts = container.querySelectorAll('.animate-text');
+      let maxDuration = 0;
+      texts.forEach(text => {
+        const duration = animateText(text);
+        if (duration > maxDuration) maxDuration = duration;
+      });
+      // Reveal delayed buttons after text animation finishes
+      const buttons = container.querySelectorAll('.delayed-button');
+      setTimeout(() => {
+        buttons.forEach(btn => {
+          btn.style.opacity = 1;
+          btn.style.pointerEvents = 'auto';
+        });
+      }, maxDuration * 1000);
+    }
+
+    // Animate Step 0 on load
+    animateContainer(document.getElementById('step0'));
+
+    /* ----- Navigation Between Steps ----- */
+    document.getElementById('nameSubmit').addEventListener('click', function() {
+      const input = document.getElementById('userNameInput').value.trim();
+      if(input !== "") {
+        userName = input;
+      }
+      // Update welcome message with the user's name
+      document.getElementById('welcomeHeader').textContent = `Hey, ${userName}!`;
+      document.getElementById('userNameSpan').textContent = userName;
+      // Move to Step 1
+      document.getElementById('step0').classList.remove('active');
+      const step1 = document.getElementById('step1');
+      step1.classList.add('active');
+      animateContainer(step1);
+    });
+
+    document.getElementById('start').addEventListener('click', function() {
+      document.getElementById('step1').classList.remove('active');
+      const step2 = document.getElementById('step2');
+      step2.classList.add('active');
+      animateContainer(step2);
+    });
+
+    document.getElementById('nextStep1').addEventListener('click', function() {
+      document.getElementById('step2').classList.remove('active');
+      const step3 = document.getElementById('step3');
+      step3.classList.add('active');
+      animateContainer(step3);
+    });
+
+    document.getElementById('nextStep2').addEventListener('click', function() {
+      document.getElementById('step3').classList.remove('active');
+      const step4 = document.getElementById('step4');
+      step4.classList.add('active');
+      animateContainer(step4);
+      startHeartGame();
+    });
+
+    document.getElementById('restart').addEventListener('click', function() {
+      // Remove active class from all containers
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      // Reset game container and score for next time
+      document.getElementById('gameContainer').innerHTML = '';
+      score = 0;
+      document.getElementById('scoreDisplay').textContent = "Score: 0/5";
+      // Start over at Step 0 (ask for name)
+      const step0 = document.getElementById('step0');
+      step0.classList.add('active');
+      animateContainer(step0);
+    });
+
+    /* ----- Interactive Hearts on Click ----- */
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('button') || e.target.classList.contains('delayed-button') || e.target.tagName === 'INPUT') return;
+      const heart = document.createElement('span');
+      heart.textContent = '❤️';
+      heart.style.position = 'absolute';
+      heart.style.left = (e.pageX - 10) + 'px';
+      heart.style.top = (e.pageY - 10) + 'px';
+      heart.style.fontSize = '24px';
+      heart.style.opacity = 1;
+      heart.style.pointerEvents = 'none';
+      heart.style.transition = 'all 1s ease-out';
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.style.top = (e.pageY - 50) + 'px';
+        heart.style.opacity = 0;
+      }, 10);
+      setTimeout(() => {
+        heart.remove();
+      }, 1010);
+    });
+
+    /* ----- Rose Petal Rain Effect ----- */
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.textContent = '🌹';
+      petal.className = 'petal';
+      petal.style.left = Math.random() * 100 + '%';
+      petal.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      const duration = Math.random() * 5 + 5;
+      petal.style.animationDuration = duration + 's';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      document.getElementById('petal-container').appendChild(petal);
+      setTimeout(() => {
+        petal.remove();
+      }, (duration + parseFloat(petal.style.animationDelay)) * 1000);
+    }
+    setInterval(createPetal, 500);
+
+    /* ----- Heart Collector Game (Step 4) ----- */
+    let score = 0;
+    let gameInterval;
+    function startHeartGame() {
+      score = 0;
+      document.getElementById('scoreDisplay').textContent = "Score: 0/5";
+      const gameContainer = document.getElementById('gameContainer');
+      gameInterval = setInterval(() => {
+        const heart = document.createElement('div');
+        heart.textContent = '💖';
+        heart.classList.add('game-heart');
+        heart.style.left = Math.random() * (gameContainer.clientWidth - 30) + 'px';
+        heart.style.top = Math.random() * (gameContainer.clientHeight - 30) + 'px';
+        heart.style.fontSize = '2em';
+        heart.style.cursor = 'pointer';
+        heart.addEventListener('click', function(e) {
+          e.stopPropagation();
+          heart.remove();
+          score++;
+          document.getElementById('scoreDisplay').textContent = "Score: " + score + "/5";
+          if (score >= 5) {
+            clearInterval(gameInterval);
+            setTimeout(() => {
+              document.getElementById('step4').classList.remove('active');
+              const step5 = document.getElementById('step5');
+              step5.classList.add('active');
+              animateContainer(step5);
+            }, 1000);
+          }
+        });
+        gameContainer.appendChild(heart);
+        setTimeout(() => {
+          if (gameContainer.contains(heart)) {
+            heart.remove();
+          }
+        }, 3000);
+      }, 800);
+    }
+  </script>
+</body>
+</html>
