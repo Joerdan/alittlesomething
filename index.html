@@ -9,7 +9,8 @@
   <style>
     /* Global Styles */
     body {
-      background: radial-gradient(circle, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
+      /* A soft, pastel linear gradient background */
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
       font-family: 'Baloo 2', cursive, sans-serif;
       text-align: center;
       margin: 0;
@@ -22,13 +23,20 @@
       color: #ff4081;
       font-size: 2.8em;
       margin: 40px 0 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
     p {
       font-size: 1.3em;
-      margin: 20px auto;
+      margin: 20px auto 30px auto; /* extra bottom margin for spacing */
       max-width: 600px;
       line-height: 1.6;
+    }
+    /* Style for inline italicized text (e.g., PS lines) */
+    i {
+      display: block;
+      margin-top: 10px;
+      font-style: italic;
+      color: #ff4081;
     }
     .button, .delayed-button {
       background-color: #ff4081;
@@ -40,7 +48,7 @@
       cursor: pointer;
       transition: background-color 0.3s ease, opacity 0.5s ease, transform 0.3s ease;
       margin-top: 20px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
     .button:hover, .delayed-button:hover {
       background-color: #e0407e;
@@ -139,10 +147,8 @@
     <h1 class="animate-text">Hey You!</h1>
     <p class="animate-text">
       Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.
-
-      <i>Ps: click anywhere on the screen little hearts show up it's kinda cool ;)</i>
+      <i>Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)</i>
     </p>
-
     <button class="delayed-button" id="start">Let’s Go</button>
   </div>
 
@@ -159,7 +165,7 @@
   <div id="step3" class="container">
     <h1 class="animate-text">Oh, and...</h1>
     <p class="animate-text">
-      Smiles are contagious. If you just smiled, I win. If you didn't FUCK YOU this is cute!!!!
+      Smiles are contagious. If you just smiled, I win. If you didn't, FUCK YOU—this is cute!!!!
     </p>
     <button class="delayed-button" id="nextStep2">Next</button>
   </div>
@@ -168,7 +174,7 @@
   <div id="step4" class="container">
     <h1 class="animate-text">Game Time</h1>
     <p class="animate-text">
-      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue - Just sayin
+      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.
     </p>
     <div id="scoreDisplay" style="font-size:1.2em; margin-bottom:10px;">Score: 0/5</div>
     <div id="gameContainer"></div>
@@ -178,7 +184,7 @@
   <div id="step5" class="container">
     <h1 class="animate-text">Yay!! Your fingers work and you can click on a few hearts</h1>
     <p class="animate-text">
-      Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me and I wish you a happy valentines day.
+      Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.
     </p>
     <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487"
          alt="Bouquet" style="max-width: 90%; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);" />
@@ -267,6 +273,11 @@
       document.getElementById('gameContainer').innerHTML = '';
       score = 0;
       document.getElementById('scoreDisplay').textContent = "Score: 0/5";
+      // Clear any lingering inline styles on delayed buttons
+      document.querySelectorAll('.delayed-button').forEach(btn => {
+        btn.style.opacity = 0;
+        btn.style.pointerEvents = 'none';
+      });
       // Start over at Step 1
       const step1 = document.getElementById('step1');
       step1.classList.add('active');
