@@ -3,13 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <title>Just a Little Something</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Google Font for a playful feel -->
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Global Styles */
+    body {
+      background: radial-gradient(circle, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      font-family: 'Baloo 2', cursive, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      overflow-x: hidden;
+      position: relative;
+    }
+    h1 {
+      color: #ff4081;
+      font-size: 2.8em;
+      margin: 40px 0 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    p {
+      font-size: 1.3em;
+      margin: 20px auto 30px;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    .ps-text {
+      display: block;
+      margin-top: 20px;
+      font-style: italic;
+      color: #ff4081;
+    }
+    button {
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1em;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s, opacity 0.5s, transform 0.5s;
+      margin-top: 20px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background-color: #e0407e;
+      transform: scale(1.05);
+    }
+    /* Elements that should appear after the typewriter animation */
+    .delayed-button {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .container {
+      display: none;
+      animation: fadeIn 0.8s ease-in;
+    }
+    .active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Rose Petal Rain */
+    #petal-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -50px;
+      opacity: 0.8;
+      animation: fallPetal linear infinite;
+    }
+    @keyframes fallPetal {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    /* Game Container (Step 4) */
+    #gameContainer {
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      height: 300px;
+      margin: 20px auto;
+      border: 2px dashed #ff4081;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.5);
+    }
+    .game-heart {
+      position: absolute;
+      font-size: 2em;
+      cursor: pointer;
+      user-select: none;
+    }
+    /* Step 6: Bouquet Reveal */
+    #step6 {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+    #step6.active {
+      display: flex;
+    }
+    /* The bouquet image and restart button will be revealed after text animation */
+    #bouquetImage, #restart {
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 2.2em; }
+      p { font-size: 1em; padding: 0 10px; }
+      button { padding: 12px 20px; font-size: 0.9em; }
+      #gameContainer { height: 250px; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Constant Rose Petal Rain Container -->
+  <!-- Rose Petal Rain Container -->
   <div id="petal-container"></div>
 
   <!-- Step 1: Welcome -->
@@ -45,21 +174,11 @@
   <!-- Step 4: Heart Collector Game -->
   <div id="step4" class="container">
     <h1 class="animate-text" data-original="Game Time">Game Time</h1>
-    <p class="animate-text" data-original="Catch 3 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.">
-      Catch 3 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.
+    <p class="animate-text" data-original="Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.">
+      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.
     </p>
-    <div id="scoreDisplay" class="score">Score: 0/3</div>
+    <div id="scoreDisplay" style="font-size:1.2em; margin-bottom:10px;">Score: 0/5</div>
     <div id="gameContainer"></div>
-  </div>
-
-  <!-- Step 5: Final Challenge -->
-  <div id="step5" class="container">
-    <h1 class="animate-text" data-original="Final Challenge">Final Challenge</h1>
-    <p class="animate-text" data-original="Just one more step before you get your flowers! Press the button below.">
-      Just one more step before you get your flowers! Press the button below.
-    </p>
-    <!-- This button appears immediately -->
-    <button id="challengeBtn">Click Me</button>
   </div>
 
   <!-- Step 6: Bouquet Reveal -->
@@ -68,10 +187,172 @@
     <p class="animate-text" data-original="Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.">
       Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.
     </p>
-    <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487" alt="Bouquet">
+    <img id="bouquetImage" class="delayed-button" src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487" alt="Bouquet" style="max-width:90%; margin:20px auto; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.3);">
     <button class="delayed-button" id="restart">Run It Back</button>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    console.log("Script loaded");
+
+    // Scroll to top on container activation
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Typewriter Animation function (for steps 1-3 & 6)
+    function animateText(element) {
+      const originalText = element.getAttribute('data-original') || element.textContent;
+      element.innerHTML = '';
+      let delayCounter = 0;
+      const words = originalText.split(' ');
+      words.forEach((word, wordIndex) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.style.whiteSpace = 'nowrap';
+        for (let i = 0; i < word.length; i++) {
+          const letterSpan = document.createElement('span');
+          letterSpan.textContent = word[i];
+          letterSpan.style.opacity = 0;
+          letterSpan.style.display = 'inline-block';
+          letterSpan.style.animation = 'fadeInUp 0.5s forwards';
+          letterSpan.style.animationFillMode = 'forwards';
+          letterSpan.style.animationDelay = (delayCounter * 0.05) + 's';
+          delayCounter++;
+          wordSpan.appendChild(letterSpan);
+        }
+        element.appendChild(wordSpan);
+        if (wordIndex < words.length - 1) {
+          element.appendChild(document.createTextNode(' '));
+          delayCounter++;
+        }
+      });
+      return delayCounter * 0.05 + 0.5;
+    }
+
+    // Animate container's text and reveal its delayed elements
+    function animateContainer(container) {
+      console.log("Animating container:", container.id);
+      scrollToTop();
+      if (container.id !== 'step5') {
+        const texts = container.querySelectorAll('.animate-text');
+        let maxDuration = 0;
+        texts.forEach(text => {
+          const duration = animateText(text);
+          if (duration > maxDuration) maxDuration = duration;
+        });
+        const buttons = container.querySelectorAll('.delayed-button');
+        setTimeout(() => {
+          buttons.forEach(btn => {
+            btn.style.opacity = 1;
+            btn.style.pointerEvents = 'auto';
+          });
+        }, maxDuration * 1000);
+      } else {
+        // For Step 5, do not run typewriter animation (plain text should remain)
+      }
+    }
+
+    // Activate container by ID
+    function activateContainer(id) {
+      console.log("Activating container:", id);
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      const container = document.getElementById(id);
+      container.classList.add('active');
+      animateContainer(container);
+    }
+
+    // Start with Step 1
+    activateContainer('step1');
+
+    // Navigation
+    document.getElementById('start').addEventListener('click', () => {
+      console.log("Start clicked");
+      activateContainer('step2');
+    });
+    document.getElementById('nextStep1').addEventListener('click', () => {
+      console.log("NextStep1 clicked");
+      activateContainer('step3');
+    });
+    document.getElementById('nextStep2').addEventListener('click', () => {
+      console.log("NextStep2 clicked");
+      activateContainer('step4');
+      startHeartGame();
+    });
+
+    // Heart Collector Game (Step 4)
+    let score = 0;
+    let gameInterval;
+    function startHeartGame() {
+      console.log("Starting heart game");
+      score = 0;
+      document.getElementById('scoreDisplay').textContent = "Score: 0/5";
+      const gameContainer = document.getElementById('gameContainer');
+      gameInterval = setInterval(() => {
+        const heart = document.createElement('div');
+        heart.textContent = '💖';
+        heart.classList.add('game-heart');
+        heart.style.left = Math.random() * (gameContainer.clientWidth - 30) + 'px';
+        heart.style.top = Math.random() * (gameContainer.clientHeight - 30) + 'px';
+        heart.style.fontSize = '2em';
+        heart.style.cursor = 'pointer';
+        heart.addEventListener('click', () => {
+          score++;
+          console.log("Heart clicked, score:", score);
+          document.getElementById('scoreDisplay').textContent = "Score: " + score + "/5";
+          heart.remove();
+          if (score >= 5) {
+            clearInterval(gameInterval);
+            console.log("Score reached 5, transitioning to Step 6 in 1 second");
+            setTimeout(() => {
+              activateContainer('step6');
+            }, 1000);
+          }
+        });
+        gameContainer.appendChild(heart);
+        setTimeout(() => { if (gameContainer.contains(heart)) heart.remove(); }, 3000);
+      }, 800);
+    }
+
+    // Interactive Hearts on Screen Click
+    const heartEmojis = ["❤️", "💖", "💕", "💗", "💓", "💘", "💝", "💞"];
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      const heart = document.createElement('span');
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.position = 'absolute';
+      heart.style.left = (e.pageX - 10) + 'px';
+      heart.style.top = (e.pageY - 10) + 'px';
+      heart.style.fontSize = '24px';
+      heart.style.opacity = 1;
+      heart.style.pointerEvents = 'none';
+      heart.style.transition = 'all 1s ease-out';
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.style.top = (e.pageY - 50) + 'px';
+        heart.style.opacity = 0;
+      }, 10);
+      setTimeout(() => { heart.remove(); }, 1010);
+    });
+
+    // Rose Petal Rain
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.textContent = '🌹';
+      petal.className = 'petal';
+      petal.style.left = Math.random() * 100 + '%';
+      petal.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      const duration = Math.random() * 5 + 5;
+      petal.style.animationDuration = duration + 's';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      document.getElementById('petal-container').appendChild(petal);
+      setTimeout(() => { petal.remove(); }, (duration + parseFloat(petal.style.animationDelay)) * 1000);
+    }
+    setInterval(createPetal, 500);
+
+    // Restart Button (Step 6)
+    document.getElementById('restart').addEventListener('click', () => {
+      console.log("Restart clicked - reloading page");
+      location.reload();
+    });
+  </script>
 </body>
 </html>
