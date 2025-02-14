@@ -9,8 +9,11 @@
   <style>
     /* Global Styles */
     body {
-      /* A soft, pastel linear gradient background */
-      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      /* Radial gradient background that covers the screen without repeating */
+      background: radial-gradient(circle, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
       font-family: 'Baloo 2', cursive, sans-serif;
       text-align: center;
       margin: 0;
@@ -31,10 +34,10 @@
       max-width: 600px;
       line-height: 1.6;
     }
-    /* Style for inline italicized text (e.g., PS lines) */
-    i {
+    /* Style for PS text (italicized and block-level) */
+    .ps-text {
       display: block;
-      margin-top: 10px;
+      margin-top: 20px;
       font-style: italic;
       color: #ff4081;
     }
@@ -118,15 +121,22 @@
       from { transform: scale(0); }
       to { transform: scale(1); }
     }
-    /* Step 5: Bouquet Reveal - Centered using flex */
+    /* Step 5: Final Challenge Container */
     #step5 {
+      display: none;
+      position: relative;
+      padding-top: 50px;
+      min-height: 60vh;
+    }
+    /* Step 6: Bouquet Reveal - Centered using flex */
+    #step6 {
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 80vh;
     }
-    #step5.active {
+    #step6.active {
       display: flex;
     }
     /* Responsive Tweaks */
@@ -147,8 +157,8 @@
     <h1 class="animate-text">Hey You!</h1>
     <p class="animate-text">
       Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.
-      <i>Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)</i>
     </p>
+    <i class="ps-text">Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)</i>
     <button class="delayed-button" id="start">Let’s Go</button>
   </div>
 
@@ -180,9 +190,16 @@
     <div id="gameContainer"></div>
   </div>
 
-  <!-- Step 5: Bouquet Reveal (Centered) -->
+  <!-- Step 5: Final Challenge -->
   <div id="step5" class="container">
-    <h1 class="animate-text">Yay!! Your fingers work and you can click on a few hearts</h1>
+    <h1 class="animate-text">Final Challenge</h1>
+    <p class="animate-text">Just one more step before you get your flowers! Press the button below.</p>
+    <button class="delayed-button" id="challengeBtn">Click Me</button>
+  </div>
+
+  <!-- Step 6: Bouquet Reveal (Centered) -->
+  <div id="step6" class="container">
+    <h1 class="animate-text">Yay!! Your fingers work!</h1>
     <p class="animate-text">
       Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.
     </p>
@@ -266,6 +283,31 @@
       startHeartGame();
     });
 
+    /* ----- Final Challenge Button (Step 5) ----- */
+    let challengeClicks = 0;
+    document.getElementById('challengeBtn').addEventListener('click', function(e) {
+      challengeClicks++;
+      const btn = e.target;
+      if (challengeClicks === 1) {
+        // Reposition button randomly
+        btn.style.position = 'absolute';
+        btn.style.top = Math.random() * (window.innerHeight - btn.offsetHeight) + 'px';
+        btn.style.left = Math.random() * (window.innerWidth - btn.offsetWidth) + 'px';
+        btn.textContent = "lol too slow";
+      } else if (challengeClicks === 2) {
+        btn.style.top = Math.random() * (window.innerHeight - btn.offsetHeight) + 'px';
+        btn.style.left = Math.random() * (window.innerWidth - btn.offsetWidth) + 'px';
+        btn.textContent = "ALMOST got me";
+      } else if (challengeClicks === 3) {
+        // Transition to bouquet reveal (Step 6)
+        document.getElementById('step5').classList.remove('active');
+        const step6 = document.getElementById('step6');
+        step6.classList.add('active');
+        animateContainer(step6);
+      }
+    });
+
+    /* ----- Restart Button ----- */
     document.getElementById('restart').addEventListener('click', function() {
       // Remove active class from all containers
       document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
@@ -273,6 +315,17 @@
       document.getElementById('gameContainer').innerHTML = '';
       score = 0;
       document.getElementById('scoreDisplay').textContent = "Score: 0/5";
+      // Reset challenge button styles and counter
+      challengeClicks = 0;
+      const challengeBtn = document.getElementById('challengeBtn');
+      if(challengeBtn){
+        challengeBtn.style.position = '';
+        challengeBtn.style.top = '';
+        challengeBtn.style.left = '';
+        challengeBtn.textContent = "Click Me";
+        challengeBtn.style.opacity = 0;
+        challengeBtn.style.pointerEvents = 'none';
+      }
       // Clear any lingering inline styles on delayed buttons
       document.querySelectorAll('.delayed-button').forEach(btn => {
         btn.style.opacity = 0;
@@ -347,6 +400,7 @@
           if (score >= 5) {
             clearInterval(gameInterval);
             setTimeout(() => {
+              // Transition to the final challenge (Step 5)
               document.getElementById('step4').classList.remove('active');
               const step5 = document.getElementById('step5');
               step5.classList.add('active');
