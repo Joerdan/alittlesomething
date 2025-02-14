@@ -154,18 +154,18 @@
 
   <!-- Step 1: Welcome -->
   <div id="step1" class="container active">
-    <h1 class="animate-text">Hey You!</h1>
-    <p class="animate-text">
+    <h1 class="animate-text" data-original="Hey You!">Hey You!</h1>
+    <p class="animate-text" data-original="Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.">
       Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.
     </p>
-    <i class="ps-text">Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)</i>
+    <i class="ps-text" data-original="Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)">Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)</i>
     <button class="delayed-button" id="start">Let’s Go</button>
   </div>
 
   <!-- Step 2: Reminder -->
   <div id="step2" class="container">
-    <h1 class="animate-text">Just a Reminder</h1>
-    <p class="animate-text">
+    <h1 class="animate-text" data-original="Just a Reminder">Just a Reminder</h1>
+    <p class="animate-text" data-original="You're appreciated. Not just today, but every day.">
       You're appreciated. Not just today, but every day.
     </p>
     <button class="delayed-button" id="nextStep1">Next</button>
@@ -173,8 +173,8 @@
 
   <!-- Step 3: A Little Nudge -->
   <div id="step3" class="container">
-    <h1 class="animate-text">Oh, and...</h1>
-    <p class="animate-text">
+    <h1 class="animate-text" data-original="Oh, and...">Oh, and...</h1>
+    <p class="animate-text" data-original="Smiles are contagious. If you just smiled, I win. If you didn't, FUCK YOU—this is cute!!!!">
       Smiles are contagious. If you just smiled, I win. If you didn't, FUCK YOU—this is cute!!!!
     </p>
     <button class="delayed-button" id="nextStep2">Next</button>
@@ -182,8 +182,8 @@
 
   <!-- Step 4: Heart Collector Game -->
   <div id="step4" class="container">
-    <h1 class="animate-text">Game Time</h1>
-    <p class="animate-text">
+    <h1 class="animate-text" data-original="Game Time">Game Time</h1>
+    <p class="animate-text" data-original="Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.">
       Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.
     </p>
     <div id="scoreDisplay" style="font-size:1.2em; margin-bottom:10px;">Score: 0/5</div>
@@ -192,15 +192,18 @@
 
   <!-- Step 5: Final Challenge -->
   <div id="step5" class="container">
-    <h1 class="animate-text">Final Challenge</h1>
-    <p class="animate-text">Just one more step before you get your flowers! Press the button below.</p>
-    <button class="delayed-button" id="challengeBtn">Click Me</button>
+    <h1 class="animate-text" data-original="Final Challenge">Final Challenge</h1>
+    <p class="animate-text" data-original="Just one more step before you get your flowers! Press the button below.">
+      Just one more step before you get your flowers! Press the button below.
+    </p>
+    <!-- Removed delayed-button so it appears immediately -->
+    <button id="challengeBtn">Click Me</button>
   </div>
 
   <!-- Step 6: Bouquet Reveal (Centered) -->
   <div id="step6" class="container">
-    <h1 class="animate-text">Yay!! Your fingers work!</h1>
-    <p class="animate-text">
+    <h1 class="animate-text" data-original="Yay!! Your fingers work!">Yay!! Your fingers work!</h1>
+    <p class="animate-text" data-original="Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.">
       Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.
     </p>
     <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487"
@@ -209,12 +212,19 @@
   </div>
 
   <script>
+    // On page load, store original text content in a data attribute if not already stored
+    document.querySelectorAll('.animate-text').forEach(el => {
+      if (!el.dataset.original) {
+        el.dataset.original = el.textContent;
+      }
+    });
+
     /* ----- Typewriter Text Animation (Word-by-Word) ----- */
     function animateText(element) {
-      const text = element.textContent;
+      const originalText = element.dataset.original || element.textContent;
       element.innerHTML = '';
       let delayCounter = 0;
-      const words = text.split(' ');
+      const words = originalText.split(' ');
       words.forEach((word, wordIndex) => {
         // Wrap each word in a span to prevent breaking mid-word
         const wordSpan = document.createElement('span');
@@ -318,20 +328,21 @@
       // Reset challenge button styles and counter
       challengeClicks = 0;
       const challengeBtn = document.getElementById('challengeBtn');
-      if(challengeBtn){
+      if (challengeBtn) {
         challengeBtn.style.position = '';
         challengeBtn.style.top = '';
         challengeBtn.style.left = '';
         challengeBtn.textContent = "Click Me";
-        challengeBtn.style.opacity = 0;
-        challengeBtn.style.pointerEvents = 'none';
+        // Ensure it becomes visible immediately in step 5
+        challengeBtn.style.opacity = 1;
+        challengeBtn.style.pointerEvents = 'auto';
       }
       // Clear any lingering inline styles on delayed buttons
       document.querySelectorAll('.delayed-button').forEach(btn => {
         btn.style.opacity = 0;
         btn.style.pointerEvents = 'none';
       });
-      // Start over at Step 1
+      // Restart from Step 1
       const step1 = document.getElementById('step1');
       step1.classList.add('active');
       animateContainer(step1);
