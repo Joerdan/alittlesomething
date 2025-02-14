@@ -2,154 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- Google Font for a playful, lively feel -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Just a Little Something</title>
-  <style>
-    /* Global Styles */
-    body {
-      /* Fixed, non-repeating radial gradient background */
-      background: radial-gradient(circle, #ffb3ba, #ffdfba, #ffffba, #baffc9, #bae1ff);
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: fixed;
-      font-family: 'Baloo 2', cursive, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-      color: #333;
-      overflow-x: hidden;
-      position: relative;
-    }
-    h1 {
-      color: #ff4081;
-      font-size: 2.8em;
-      margin: 40px 0 20px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    p {
-      font-size: 1.3em;
-      margin: 20px auto 30px auto; /* extra bottom margin for spacing */
-      max-width: 600px;
-      line-height: 1.6;
-    }
-    /* Style for PS text (italicized and block-level) */
-    .ps-text {
-      display: block;
-      margin-top: 20px;
-      font-style: italic;
-      color: #ff4081;
-    }
-    .button, .delayed-button {
-      background-color: #ff4081;
-      color: white;
-      border: none;
-      padding: 15px 25px;
-      font-size: 1em;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, opacity 0.5s ease, transform 0.3s ease;
-      margin-top: 20px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .button:hover, .delayed-button:hover {
-      background-color: #e0407e;
-      transform: scale(1.05);
-    }
-    .delayed-button {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .container {
-      display: none;
-      animation: fadeIn 0.8s ease-in;
-    }
-    .active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    /* Typewriter / Fade In Up Animation */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Rose Petal Rain Styles */
-    #petal-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      overflow: hidden;
-    }
-    .petal {
-      position: absolute;
-      top: -50px;
-      opacity: 0.8;
-      animation: fallPetal linear infinite;
-    }
-    @keyframes fallPetal {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
-    /* Game Container (Step 4) */
-    #gameContainer {
-      position: relative;
-      width: 90%;
-      max-width: 600px;
-      height: 300px;
-      margin: 20px auto;
-      border: 2px dashed #ff4081;
-      border-radius: 10px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.5);
-    }
-    .game-heart {
-      position: absolute;
-      font-size: 2em;
-      cursor: pointer;
-      user-select: none;
-      animation: pop 0.3s forwards;
-    }
-    @keyframes pop {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
-    }
-    /* Step 5: Final Challenge Container */
-    #step5 {
-      display: none;
-      position: relative;
-      padding-top: 50px;
-      min-height: 60vh;
-    }
-    /* Step 6: Bouquet Reveal - Centered using flex */
-    #step6 {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 80vh;
-    }
-    #step6.active {
-      display: flex;
-    }
-    /* Responsive Tweaks */
-    @media (max-width: 600px) {
-      h1 { font-size: 2.2em; }
-      p { font-size: 1em; padding: 0 10px; }
-      .button, .delayed-button { padding: 12px 20px; font-size: 0.9em; }
-      #gameContainer { height: 250px; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Font for a playful feel -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <!-- Rose Petal Rain Container (Remains constant) -->
+  <!-- Constant Rose Petal Rain Container -->
   <div id="petal-container"></div>
 
   <!-- Step 1: Welcome -->
@@ -158,7 +18,9 @@
     <p class="animate-text" data-original="Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.">
       Nothing fancy here, just a little something to put a smile on your face. First of all, I want to thank you for being a part of my life. You've been nothing far from amazing and I love you so fucking much.
     </p>
-    <i class="ps-text" data-original="Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)">Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)</i>
+    <i class="ps-text" data-original="Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)">
+      Ps: Click anywhere on the screen and little hearts will show up—it's kinda cool ;)
+    </i>
     <button class="delayed-button" id="start">Let’s Go</button>
   </div>
 
@@ -183,10 +45,10 @@
   <!-- Step 4: Heart Collector Game -->
   <div id="step4" class="container">
     <h1 class="animate-text" data-original="Game Time">Game Time</h1>
-    <p class="animate-text" data-original="Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.">
-      Catch 5 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.
+    <p class="animate-text" data-original="Catch 3 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.">
+      Catch 3 hearts. No pressure, but if you mess up, that’s kinda awkward and a major skill issue—just sayin'.
     </p>
-    <div id="scoreDisplay" style="font-size:1.2em; margin-bottom:10px;">Score: 0/5</div>
+    <div id="scoreDisplay" class="score">Score: 0/3</div>
     <div id="gameContainer"></div>
   </div>
 
@@ -196,37 +58,28 @@
     <p class="animate-text" data-original="Just one more step before you get your flowers! Press the button below.">
       Just one more step before you get your flowers! Press the button below.
     </p>
-    <!-- Removed delayed-button so it appears immediately -->
+    <!-- The button here appears immediately (no delayed class) -->
     <button id="challengeBtn">Click Me</button>
   </div>
 
-  <!-- Step 6: Bouquet Reveal (Centered) -->
+  <!-- Step 6: Bouquet Reveal -->
   <div id="step6" class="container">
     <h1 class="animate-text" data-original="Yay!! Your fingers work!">Yay!! Your fingers work!</h1>
     <p class="animate-text" data-original="Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.">
       Here's a beautiful bouquet of flowers just for you. I hope you know how much you mean to me, and I wish you a happy Valentine's Day.
     </p>
-    <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487"
-         alt="Bouquet" style="max-width: 90%; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);" />
+    <img src="https://lexandroses.com/cdn/shop/files/pics_91_5_1800x1800.png?v=1695945487" alt="Bouquet">
     <button class="delayed-button" id="restart">Run It Back</button>
   </div>
 
   <script>
-    // On page load, store original text content in a data attribute if not already stored
-    document.querySelectorAll('.animate-text').forEach(el => {
-      if (!el.dataset.original) {
-        el.dataset.original = el.textContent;
-      }
-    });
-
-    /* ----- Typewriter Text Animation (Word-by-Word) ----- */
+    // --- Typewriter Animation Function ---
     function animateText(element) {
-      const originalText = element.dataset.original || element.textContent;
+      const originalText = element.getAttribute('data-original') || element.textContent;
       element.innerHTML = '';
       let delayCounter = 0;
       const words = originalText.split(' ');
       words.forEach((word, wordIndex) => {
-        // Wrap each word in a span to prevent breaking mid-word
         const wordSpan = document.createElement('span');
         wordSpan.style.whiteSpace = 'nowrap';
         for (let i = 0; i < word.length; i++) {
@@ -240,16 +93,15 @@
           wordSpan.appendChild(letterSpan);
         }
         element.appendChild(wordSpan);
-        // Add a space between words (if not the last word)
         if (wordIndex < words.length - 1) {
           element.appendChild(document.createTextNode(' '));
-          delayCounter++; // account for space delay
+          delayCounter++;
         }
       });
-      // Return total duration (in seconds) for text animation
       return delayCounter * 0.05 + 0.5;
     }
 
+    // Animate all .animate-text in a container and reveal its delayed buttons afterward
     function animateContainer(container) {
       const texts = container.querySelectorAll('.animate-text');
       let maxDuration = 0;
@@ -257,7 +109,6 @@
         const duration = animateText(text);
         if (duration > maxDuration) maxDuration = duration;
       });
-      // Reveal delayed buttons after text animation finishes
       const buttons = container.querySelectorAll('.delayed-button');
       setTimeout(() => {
         buttons.forEach(btn => {
@@ -267,94 +118,69 @@
       }, maxDuration * 1000);
     }
 
-    // Animate Step 1 on load
+    // Helper to activate a container by ID
+    function activateContainer(id) {
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      const container = document.getElementById(id);
+      container.classList.add('active');
+      animateContainer(container);
+    }
+
+    // Start with Step 1 (already active)
     animateContainer(document.getElementById('step1'));
 
-    /* ----- Navigation Between Steps ----- */
-    document.getElementById('start').addEventListener('click', function() {
-      document.getElementById('step1').classList.remove('active');
-      const step2 = document.getElementById('step2');
-      step2.classList.add('active');
-      animateContainer(step2);
+    // --- Navigation Buttons ---
+    document.getElementById('start').addEventListener('click', () => {
+      activateContainer('step2');
     });
-
-    document.getElementById('nextStep1').addEventListener('click', function() {
-      document.getElementById('step2').classList.remove('active');
-      const step3 = document.getElementById('step3');
-      step3.classList.add('active');
-      animateContainer(step3);
+    document.getElementById('nextStep1').addEventListener('click', () => {
+      activateContainer('step3');
     });
-
-    document.getElementById('nextStep2').addEventListener('click', function() {
-      document.getElementById('step3').classList.remove('active');
-      const step4 = document.getElementById('step4');
-      step4.classList.add('active');
-      animateContainer(step4);
+    document.getElementById('nextStep2').addEventListener('click', () => {
+      activateContainer('step4');
       startHeartGame();
     });
 
-    /* ----- Final Challenge Button (Step 5) ----- */
-    let challengeClicks = 0;
-    document.getElementById('challengeBtn').addEventListener('click', function(e) {
-      challengeClicks++;
+    // --- Final Challenge Button in Step 5 ---
+    let finalClicks = 0;
+    document.getElementById('challengeBtn').addEventListener('click', (e) => {
+      finalClicks++;
       const btn = e.target;
-      if (challengeClicks === 1) {
-        // Reposition button randomly
-        btn.style.position = 'absolute';
-        btn.style.top = Math.random() * (window.innerHeight - btn.offsetHeight) + 'px';
-        btn.style.left = Math.random() * (window.innerWidth - btn.offsetWidth) + 'px';
+      btn.style.transition = 'transform 0.5s ease';
+      if (finalClicks === 1) {
+        btn.style.transform = 'translateX(100px)';
         btn.textContent = "lol too slow";
-      } else if (challengeClicks === 2) {
-        btn.style.top = Math.random() * (window.innerHeight - btn.offsetHeight) + 'px';
-        btn.style.left = Math.random() * (window.innerWidth - btn.offsetWidth) + 'px';
+      } else if (finalClicks === 2) {
+        btn.style.transform = 'translateX(-100px)';
         btn.textContent = "ALMOST got me";
-      } else if (challengeClicks === 3) {
+      } else if (finalClicks === 3) {
+        btn.style.transform = 'translateX(0)';
         // Transition to bouquet reveal (Step 6)
-        document.getElementById('step5').classList.remove('active');
-        const step6 = document.getElementById('step6');
-        step6.classList.add('active');
-        animateContainer(step6);
+        activateContainer('step6');
       }
     });
 
-    /* ----- Restart Button ----- */
-    document.getElementById('restart').addEventListener('click', function() {
-      // Remove active class from all containers
+    // --- Restart Button ---
+    document.getElementById('restart').addEventListener('click', () => {
+      // Reset containers and counters
       document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
-      // Reset game container and score for next time
       document.getElementById('gameContainer').innerHTML = '';
       score = 0;
-      document.getElementById('scoreDisplay').textContent = "Score: 0/5";
-      // Reset challenge button styles and counter
-      challengeClicks = 0;
+      document.getElementById('scoreDisplay').textContent = "Score: 0/3";
+      finalClicks = 0;
       const challengeBtn = document.getElementById('challengeBtn');
       if (challengeBtn) {
-        challengeBtn.style.position = '';
-        challengeBtn.style.top = '';
-        challengeBtn.style.left = '';
+        challengeBtn.style.transform = '';
         challengeBtn.textContent = "Click Me";
-        // Ensure it becomes visible immediately in step 5
-        challengeBtn.style.opacity = 1;
-        challengeBtn.style.pointerEvents = 'auto';
       }
-      // Clear any lingering inline styles on delayed buttons
-      document.querySelectorAll('.delayed-button').forEach(btn => {
-        btn.style.opacity = 0;
-        btn.style.pointerEvents = 'none';
-      });
-      // Restart from Step 1
-      const step1 = document.getElementById('step1');
-      step1.classList.add('active');
-      animateContainer(step1);
+      activateContainer('step1');
     });
 
-    /* ----- Interactive Hearts on Click ----- */
+    // --- Interactive Hearts on Screen Click ---
     const heartEmojis = ["❤️", "💖", "💕", "💗", "💓", "💘", "💝", "💞"];
-    document.addEventListener('click', function(e) {
-      // Ignore clicks on buttons (or inside buttons)
+    document.addEventListener('click', (e) => {
       if (e.target.closest('button')) return;
       const heart = document.createElement('span');
-      // Choose a random heart emoji from the list
       heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
       heart.style.position = 'absolute';
       heart.style.left = (e.pageX - 10) + 'px';
@@ -368,12 +194,10 @@
         heart.style.top = (e.pageY - 50) + 'px';
         heart.style.opacity = 0;
       }, 10);
-      setTimeout(() => {
-        heart.remove();
-      }, 1010);
+      setTimeout(() => { heart.remove(); }, 1010);
     });
 
-    /* ----- Rose Petal Rain Effect ----- */
+    // --- Rose Petal Rain ---
     function createPetal() {
       const petal = document.createElement('div');
       petal.textContent = '🌹';
@@ -384,18 +208,16 @@
       petal.style.animationDuration = duration + 's';
       petal.style.animationDelay = Math.random() * 5 + 's';
       document.getElementById('petal-container').appendChild(petal);
-      setTimeout(() => {
-        petal.remove();
-      }, (duration + parseFloat(petal.style.animationDelay)) * 1000);
+      setTimeout(() => { petal.remove(); }, (duration + parseFloat(petal.style.animationDelay)) * 1000);
     }
     setInterval(createPetal, 500);
 
-    /* ----- Heart Collector Game (Step 4) ----- */
+    // --- Heart Collector Game (Step 4) ---
     let score = 0;
     let gameInterval;
     function startHeartGame() {
       score = 0;
-      document.getElementById('scoreDisplay').textContent = "Score: 0/5";
+      document.getElementById('scoreDisplay').textContent = "Score: 0/3";
       const gameContainer = document.getElementById('gameContainer');
       gameInterval = setInterval(() => {
         const heart = document.createElement('div');
@@ -405,27 +227,21 @@
         heart.style.top = Math.random() * (gameContainer.clientHeight - 30) + 'px';
         heart.style.fontSize = '2em';
         heart.style.cursor = 'pointer';
-        heart.addEventListener('click', function(e) {
+        heart.addEventListener('click', (e) => {
           e.stopPropagation();
           heart.remove();
           score++;
-          document.getElementById('scoreDisplay').textContent = "Score: " + score + "/5";
-          if (score >= 5) {
+          document.getElementById('scoreDisplay').textContent = "Score: " + score + "/3";
+          if (score >= 3) {
             clearInterval(gameInterval);
             setTimeout(() => {
-              // Transition to the final challenge (Step 5)
-              document.getElementById('step4').classList.remove('active');
-              const step5 = document.getElementById('step5');
-              step5.classList.add('active');
-              animateContainer(step5);
+              activateContainer('step5');
             }, 1000);
           }
         });
         gameContainer.appendChild(heart);
         setTimeout(() => {
-          if (gameContainer.contains(heart)) {
-            heart.remove();
-          }
+          if (gameContainer.contains(heart)) heart.remove();
         }, 3000);
       }, 800);
     }
